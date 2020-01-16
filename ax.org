@@ -1,0 +1,365 @@
+* Origin
+
+(defun ax-insert (text)
+  "Inserts text at point"
+  (insert text))
+
+
+
+(defun ax-region-activep ()
+  "Checks if Region is Active. 
+   See: ‘region-active-p’."
+  (region-active-p))
+
+
+(defun ax-interactive ()
+  (interactive "S:"))
+
+
+
+;; Code letters available are:
+;; a -- Function name: symbol with a function definition.
+;; b -- Name of existing buffer.
+;; B -- Name of buffer, possibly nonexistent.
+;; c -- Character (no input method is used).
+;; C -- Command name: symbol with interactive function definition.
+;; d -- Value of point as number.  Does not do I/O.
+;; D -- Directory name.
+;; e -- Parameterized event (i.e., one that’s a list) that invoked this command.
+;;      If used more than once, the Nth ‘e’ returns the Nth parameterized event.
+;;      This skips events that are integers or symbols.
+;; f -- Existing file name.
+;; F -- Possibly nonexistent file name.
+;; G -- Possibly nonexistent file name, defaulting to just directory name.
+;; i -- Ignored, i.e. always nil.  Does not do I/O.
+;; k -- Key sequence (downcase the last event if needed to get a definition).
+;; K -- Key sequence to be redefined (do not downcase the last event).
+;; m -- Value of mark as number.  Does not do I/O.
+;; M -- Any string.  Inherits the current input method.
+;; n -- Number read using minibuffer.
+;; N -- Numeric prefix arg, or if none, do like code ‘n’.
+;; p -- Prefix arg converted to number.  Does not do I/O.
+;; P -- Prefix arg in raw form.  Does not do I/O.
+;; r -- Region: point and mark as 2 numeric args, smallest first.  Does no I/O.
+;; s -- Any string.  Does not inherit the current input method.
+;; S -- Any symbol.
+;; U -- Mouse up event discarded by a previous k or K argument.
+;; v -- Variable name: symbol that is ‘custom-variable-p’.
+;; x -- Lisp expression read but not evaluated.
+;; X -- Lisp expression read and evaluated.
+;; z -- Coding system.
+;; Z -- Coding system, nil if no prefix arg.
+
+
+(defun ax-format (format-spec &rest args)
+  (format format-spec args))
+
+(ax-format "%s" "Hello, World!")
+
+
+(princ 2822.2)
+(format "%g" 2788)
+
+(format-spec "bash %u" )
+
+(type-of "str")
+
+
+* Basic Primitive Predicates
+- symbolp
+- booleanp
+- integerp
+- keywordp
+- arrayp
+- stringp
+- floatp
+- numberp
+- listp
+- char-or-string-p
+- bufferp
+
+
+** Common Predicates
+bool-vector-p byte-code-function-p case-table-p char-table-p commandp
+consp condition-variable-p custom-variable-p fontp
+frame-configuration-p frame-live-p framep integer-or-marker-p
+functionp hash-table-p keymapp markerp mutexp nlistp
+number-or-marker-p overlayp processp recordp string-or-null-p subrp
+sequencep syntax-table-p threadp vectorp wholenump
+window-configuration-p window-live-p windowp
+
+
+
+
+* Primitives
+
+; Returns a type
+#+BEGIN_SRC emacs-lisp
+ (defun ax-type-of (object)
+  (type-of object))
+#+END_SRC
+
+
+* Symbols 
+
+
+#+BEGIN_SRC emacs-lisp
+(defun ax-is-symbol? (object)
+  (symbolp object))
+
+#+END_SRC
+
+
+
+
+* Number Operations
+
+
+
+
+** Predicates
+
+ - is-number?
+ - is-float?
+ - is-integer?
+ - is-natural-number?
+ - is-zero?
+
+; Checks is a number?
+#+BEGIN_SRC emacs-lisp
+(defun is-number? (number)
+  (numberp number))
+#+END_SRC
+
+; Checks is a Floating Point : [[info:elisp#Float%20Basics][info:elisp#Float Basics]]
+#+BEGIN_SRC emacs-lisp
+(defun is-float? (number)
+  (floatap number))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(defun isinteger? (number)
+  (integerp number))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(defun isatural-number? (number)
+  (natnump number))
+
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(defun is-zerro? (number)
+  (zerop number))
+#+END_SRC
+
+
+
+** Conversion between  Numeric Types
+(integerp number) Numeric Types
+
+; Convert Rational to Integer
+#+BEGIN_SRC emacs-lisp
+(defun ax-rational-to-integer (rational)
+  (truncate rational))
+
+#+END_SRC
+
+; Convert Integer to Rational
+#+BEGIN_SRC emacs-lisp
+(defun ax-integer-to-rational (integer)
+  (float integer))
+
+#+END_SRC
+
+
+
+** Rational Operations [Float]
+
+
+
+
+;; Apply Math#Ceiling
+#+BEGIN_SRC emacs-lisp
+(defun ax-rational-ceiling (rational)
+  (ceiling rational))
+
+#+END_SRC
+
+;; Apply Math#Floor
+#+BEGIN_SRC emacs-lisp
+(defun ax-rational-floor (rational)
+  (floor rational))
+
+#+END_SRC
+
+;; Round up Rational
+#+BEGIN_SRC emacs-lisp
+(defun ax-rational-round-up (rational)
+  (round rational))
+
+#+END_SRC
+
+;; Increment Number
+#+BEGIN_SRC emacs-lisp
+(defmacro ax-increment (number)
+  `(setq ,number (1+ ,number)))
+
+
+#+END_SRC
+
+
+* String Operations
+ 
+
+#+BEGIN_SRC emacs-lisp
+  (defun ax-is-string? (object)
+    (stringp object))
+
+#+END_SRC
+
+; Convert Object to String
+#+BEGIN_SRC emacs-lisp
+  (defun ax-object-to-string (object)
+    (prin1-to-string object))
+
+#+END_SRC
+
+; Find and place String
+#+BEGIN_SRC emacs-lisp
+(defun ax-replace-in-string (string search-re replacement)
+  (replace-regexp-in-string search-re replacement string))
+
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun ax-symbol-to-string (symbol)
+    (symbol-name symbol))
+
+#+END_SRC
+
+* List Operations
+
+; Prepend an element to the front of the list.
+#+BEGIN_SRC emacs-lisp
+(defun ax-prepend (first-list second-list)
+  (cons first-list second-list))
+
+#+END_SRC
+
+; Append an element to the end of the list
+#+BEGIN_SRC emacs-lisp
+(defun ax-append (first-list second-list)
+  (append first-list second-list))
+
+#+END_SRC
+
+; Returns the first element of the list
+#+BEGIN_SRC emacs-lisp
+(defun ax-first (list)
+  (car list))
+
+#+END_SRC
+
+; Returns the last element of the list
+#+BEGIN_SRC emacs-lisp
+(defun ax-last (list)
+  (caddr list))
+#+END_SRC
+
+; Returns all but the first element of the list
+#+BEGIN_SRC emacs-lisp
+(defun ax-rest (list)
+  (cdr list))
+#+END_SRC
+
+; Returns an element of the list with a given *index*
+#+BEGIN_SRC emacs-lisp
+(defun ax-index (index list)
+  (nth index list))
+#+END_SRC
+
+
+
+
+
+
+
+
+* Control Structures
+
+
+(if (> 10 3)
+    (message "(< 10 3) ;=> True")
+  (message "(< 10 3) ;=> False" ))
+
+(when (< 10 3)
+  (message "OK")
+  (message "Correct!")
+  'n)
+
+(unless (> 10 3)
+  (message "OK")
+  (message "DONE!"))
+
+
+
+(defun x ()
+   (lambda (q) (+ q 1)))
+
+(x 10)
+
+(apply '+ 1 2 '( 3)) (+ 1 2 3)
+
+(defmacro ax-apply (FUNCTION &rest args)
+         )
+(apply (args) '+)
+
+
+(apply `+ 1 2 `(3 4)) ;=> 10
+
+(+ 2 (+ 1 3 4))
+
+(+ 1 2 3 4)
+
+(+ 123 123 12)
+
+(ax-prepend `value `(123 123))
+
+(let ((zebra "stripes")
+      (tiger "fierce"))
+  (message "One kind of animal has %s and another is %s."
+	   zebra tiger))
+
+(let ((a 10))
+  (princ a))
+
+
+
+(prepend `(a b c) `(d e f))
+
+
+
+
+
+(append 'x '(231 23))
+(first '(the list))
+(rest '(the lsit))
+(last '(a b c))
+
+(insert '() '())
+
+(caddr '(123 213 123))
+(car '(the front of list))
+
+
+
+(let ((variable "..."))
+  (cond ((numberp variable) "Is a number!")
+	((stringp variable) "Is a string!")))
+
+
+
+
+(ax-replace-in-string "The donkey went for a walk" "walk" "nap.")
+
